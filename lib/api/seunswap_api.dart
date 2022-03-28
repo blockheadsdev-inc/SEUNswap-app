@@ -172,7 +172,7 @@ class SeunSwapApi {
         headers: _headers,
       );
       var _res = json.decode(_response.body);
-      print("seunswapAPI fetchTokenBalance()  $_res");
+      print("seunswapAPI fetchTokenPrice()  $_res");
       return _res;
     } catch (e) {
       _errorMap = {1: '$e'};
