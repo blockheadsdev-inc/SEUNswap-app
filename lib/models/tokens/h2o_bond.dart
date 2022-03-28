@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:seunswap/models/tokens/token.dart';
 
 class TokenH20Bond {
-  String tokenFullName = "Hedera";
-  String tokenAbbrName = "HBAR";
+  String tokenFullName = "H20Bond";
+  String tokenAbbrName = "H20";
   String tokenValueType = "double";
-  // String assetLocation = "assets/hedera-hashgraph.png";
+  // String assetLocation = "assets/";
   Widget tokenIcon = const Icon(
     Icons.token_rounded,
     size: 40,
