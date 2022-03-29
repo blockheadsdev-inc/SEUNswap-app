@@ -96,7 +96,7 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
         walletId = _walletId;
         tokenBalance = _data['balance'];
         // tokenPrice = tinyBartoHbar(double.parse(_priceData['price'])).toInt();
-        tokenPrice = _priceData['price'];
+        tokenPrice = _priceData['price']!;
       });
     }
   }

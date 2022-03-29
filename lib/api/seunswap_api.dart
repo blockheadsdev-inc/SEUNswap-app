@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:seunswap/api/data_local_storage.dart';
 
 import '../models/tokens/token.dart';
+import '../supplemental/debug.dart';
 
 class SeunSwapApi {
   final String _domain = '167.99.229.54';
@@ -36,7 +37,7 @@ class SeunSwapApi {
         }
       """;
 
-    print(_body);
+    debugPrint("seunswapAPI listToken() response :  $_body");
 
     Map _errorMap = <int, String>{};
 
@@ -47,11 +48,11 @@ class SeunSwapApi {
         headers: _headers,
       );
       var _res = json.decode(_response.body);
-      print("seunswapAPI listToken()  $_res");
+      debugPrint("seunswapAPI listToken() response :  $_res");
       return _res;
     } catch (e) {
       _errorMap = {1: '$e'};
-      print(e);
+      debugPrint(e);
       return _errorMap;
     }
   }
@@ -77,7 +78,7 @@ class SeunSwapApi {
         headers: _headers);
 
     var _res = json.decode(_response.body);
-    print("seunswapAPI createKeyStore() :  $_res");
+    debugPrint("seunswapAPI createKeyStore() response :  $_res");
     return _res;
   }
 
@@ -98,8 +99,9 @@ class SeunSwapApi {
       """,
         headers: _headers);
 
-    var _res = json.decode(_response.body);
-    print(_res);
+    var _res = json
+        .decode("seunswapAPI updateTokenPrice() response :  ${_response.body}");
+    debugPrint(_res);
     return _res;
   }
 
@@ -115,14 +117,14 @@ class SeunSwapApi {
           "sell": $_amount
         }
       """;
-    print(_body);
+    debugPrint(_body);
     String _endpoint = '/seunswap/$_network/sellToken';
     String _url = "http://$_domain:$_port$_endpoint";
     var _response =
         await _client.post(Uri.parse(_url), body: _body, headers: _headers);
 
     // var _res = json.decode(_response.body);
-    print("seunswapAPI sellToken ${_response.body}");
+    debugPrint("seunswapAPI sellToken() response :   ${_response.body}");
     return _response.body;
   }
 
@@ -138,14 +140,14 @@ class SeunSwapApi {
           "quantity": $_quantity
         }
       """;
-    print(_body);
+    debugPrint(_body);
     String _endpoint = '/seunswap/$_network/purchaseToken';
     String _url = "http://$_domain:$_port$_endpoint";
     var _response =
         await _client.post(Uri.parse(_url), body: _body, headers: _headers);
 
     // var _res = json.decode(_response.body);
-    print(_response.body);
+    debugPrint("seunswapAPI purchaseToken() response :  ${_response.body}");
     return _response.body;
   }
 
@@ -161,7 +163,7 @@ class SeunSwapApi {
           "walletTokenId": "$_walletTokenId"
     }
       """;
-    // print(_body);
+    debugPrint("seunswapAPI fetchTokenPrice() String _body :  $_body");
 
     Map _errorMap = <int, String>{};
 
@@ -172,11 +174,11 @@ class SeunSwapApi {
         headers: _headers,
       );
       var _res = json.decode(_response.body);
-      print("seunswapAPI fetchTokenPrice()  $_res");
+      debugPrint("seunswapAPI fetchTokenPrice() response :  $_res");
       return _res;
     } catch (e) {
       _errorMap = {1: '$e'};
-      print(e);
+      debugPrint(e);
       return _errorMap;
     }
   }
@@ -193,7 +195,7 @@ class SeunSwapApi {
           "walletTokenId": "$_walletTokenId"
     }
       """;
-    // print(_body);
+    // debugPrint(_body);
 
     Map _errorMap = <int, String>{};
 
@@ -204,11 +206,11 @@ class SeunSwapApi {
         headers: _headers,
       );
       var _res = json.decode(_response.body);
-      print("seunswapAPI fetchTokenBalance()  $_res");
+      debugPrint("seunswapAPI fetchTokenBalance() response $_res");
       return _res;
     } catch (e) {
       _errorMap = {1: '$e'};
-      print(e);
+      debugPrint(e);
       return _errorMap;
     }
   }
@@ -220,16 +222,16 @@ class SeunSwapApi {
     var _response = await _client.get(Uri.parse(_url), headers: _headers);
 
     var _jsonData = json.decode(_response.body);
-    print(_jsonData);
+    debugPrint("seunswapAPI fetchListedTokens() response :  $_jsonData");
     List<Token> tokens = [];
 
     for (var t in _jsonData) {
       Token token = Token(t["walletTokenId"], t["walletId"], t["tokenId"],
           t["tokenName"], t["price"], t["balance"]);
-      // print("Token: $token");
+      // debugPrint("Token: $token");
       tokens.add(token);
     }
-    // print("ALl Tokens: $tokens");
+    debugPrint("seunswapAPI fetchListedTokens() ALl Tokens: $tokens");
     return tokens;
   }
 
@@ -241,19 +243,19 @@ class SeunSwapApi {
     var _response = await _client.get(Uri.parse(_url), headers: _headers);
 
     var _jsonData = json.decode(_response.body);
-    print(_jsonData);
+    debugPrint("seunswapAPI fetchOwnedTokens() response :  $_jsonData");
     List<Token> tokens = [];
 
     for (var t in _jsonData) {
       if (_walletFromLocal == t["walletId"]) {
         Token token = Token(t["walletTokenId"], t["walletId"], t["tokenId"],
             t["tokenName"], t["price"], t["balance"]);
-        // print("Token: $token");
+        debugPrint("Token: $token");
         tokens.add(token);
       } else {}
     }
 
-    print("Owned Tokens: $tokens");
+    debugPrint("seunswapAPI fetchOwnedTokens() Owned Tokens: $tokens");
     return tokens;
   }
 }

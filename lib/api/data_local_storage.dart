@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../supplemental/debug.dart';
+
 class LocalData {
   Future<bool> addString(String _key, String _value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(_key, _value);
-    // print("LocalData() addString :  $_key : $_value");
+    debugPrint("LocalData() addString :  $_key : $_value");
     bool checkValue = prefs.containsKey(_key);
     return checkValue;
   }
@@ -36,7 +38,7 @@ class LocalData {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return String
     String? stringValue = prefs.getString(_key);
-    // print("LocalData() getStringValues :  $_key : $stringValue");
+    debugPrint("LocalData() getStringValues :  $_key : $stringValue");
     return stringValue;
   }
 
@@ -72,7 +74,7 @@ class LocalData {
     prefs.setString(_key2, _tokenWalletId);
     prefs.setString(_key3, _tokenWalletWalletId);
 
-    // print("LocalData() saveSelectedToken :  $_key : $_value");
+    debugPrint("LocalData() saveSelectedToken :  $_key1 : $_tokenId");
     bool checkValue = prefs.containsKey(_key2);
     return checkValue;
   }
@@ -83,7 +85,7 @@ class LocalData {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? selectedTokenId = prefs.getString(_key1);
     String? selectedTokenWalletId = prefs.getString(_key2);
-    // print("LocalData() getSelectedToken :  $_key : $stringValue");
+    debugPrint("LocalData() getSelectedToken :  $_key1 : $selectedTokenId");
     String _json = """
       {
         "selectedTokenId" : $selectedTokenId,
