@@ -1,6 +1,6 @@
 # SEUNswap
 
-SEUNswap is an open source project, implementing an automated exchange for Hedera-based fungible tokens. Built on **[Hedera Hashgraph](http://https://hedera.com/learning/what-is-hedera-hashgraph "Hedera Hashgraph")**.
+SEUNswap is an open source project, implementing an automated exchange for Hedera-based fungible tokens. Built on **[Hedera Hashgraph](https://hedera.com/learning/what-is-hedera-hashgraph "Hedera Hashgraph")**.
 
 -***This is a Flutter/Dart project***
 
