@@ -96,7 +96,7 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
         walletId = _walletId;
         tokenBalance = _data['balance'];
         // tokenPrice = tinyBartoHbar(double.parse(_priceData['price'])).toInt();
-        tokenPrice = _priceData['price']!;
+        tokenPrice = _priceData['price'] ?? 1;
       });
     }
   }
@@ -105,6 +105,7 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
     double _qt = 0;
     if (_amount1.text.isNotEmpty) {
       double _tp = tokenPrice.toDouble();
+      // TODO: Get updated _hbarPrice from an API
       double _hbarPrice = 0.2080 * 100000000;
       double _amount = double.parse(_amount1.text);
       double _tokenPriceTbar = _tp;
