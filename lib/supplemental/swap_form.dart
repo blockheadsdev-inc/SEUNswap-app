@@ -225,28 +225,28 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
   }
 
   void _returnSubmitButtonLogic() async {
-    if (_ifInputsEmpty()) {
-      showDialog(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: const Text('SEUNSwap Tip'),
-            content: const Text('Please fill in all fields'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Okay'),
-              )
-            ],
-          );
-        },
-      );
+    String? _walletId = (await _dataStorage.getStringValues("walletId"));
+    if (_walletId == null) {
+      _firstStartDialog();
     } else {
-      String _walletId = (await _dataStorage.getStringValues("walletId"))!;
-      if (_walletId == null) {
-        _firstStartDialog();
+      if (_ifInputsEmpty()) {
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return AlertDialog(
+              title: const Text('SEUNSwap Tip'),
+              content: const Text('Please fill in all fields'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Okay'),
+                )
+              ],
+            );
+          },
+        );
       } else {
         _swapSubmit(_walletId);
       }
