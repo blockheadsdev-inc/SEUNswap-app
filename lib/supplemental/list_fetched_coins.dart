@@ -60,7 +60,7 @@ class _ListFetchedCoinsState extends State<ListFetchedCoins>
           } else {
             if (snapshot.data.length == 0) {
               return Column(
-                children: [
+                children: const [
                   SizedBox(
                     height: 60.0,
                   ),
