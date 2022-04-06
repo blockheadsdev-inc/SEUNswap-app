@@ -153,73 +153,85 @@ class _ListFetchedCoinsState extends State<ListFetchedCoins>
               ),
             );
           } else {
-            return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  double _tinyBars = _tinyBarToHbar(snapshot.data[index].price);
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 18.0),
-                        child: ListTile(
-                          title: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data[index].tokenName,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    "ID:",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  Text(
-                                    "${snapshot.data[index].tokenId}",
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              )
-                            ],
+            if (snapshot.data.length == 0) {
+              return Column(
+                children: const [
+                  Text(
+                    "No listed tokens",
+                    style: TextStyle(fontSize: 19.0),
+                  ),
+                ],
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    double _tinyBars =
+                        _tinyBarToHbar(snapshot.data[index].price);
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 18.0),
+                          child: ListTile(
+                            title: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data[index].tokenName,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "ID:",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    Text(
+                                      "${snapshot.data[index].tokenId}",
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            subtitle: const Text(''
+                                // "Amount: ${snapshot.data[index].balance.toString()}",
+                                ),
+                            trailing: Column(
+                              children: [
+                                const Text(
+                                  'Price',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  '(${_tinyBars.toString()} ℏ)',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              _saveTokenOnTap(
+                                  snapshot.data[index].tokenId,
+                                  snapshot.data[index].walletTokenId,
+                                  snapshot.data[index].walletId);
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Selected Token ID ${snapshot.data[index].tokenId}')));
+                              setState(() {
+                                widget.tabController.index = 0;
+                              });
+                            },
                           ),
-                          subtitle: const Text(''
-                              // "Amount: ${snapshot.data[index].balance.toString()}",
-                              ),
-                          trailing: Column(
-                            children: [
-                              const Text(
-                                'Price',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                '(${_tinyBars.toString()} ℏ)',
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            _saveTokenOnTap(
-                                snapshot.data[index].tokenId,
-                                snapshot.data[index].walletTokenId,
-                                snapshot.data[index].walletId);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    'Selected Token ID ${snapshot.data[index].tokenId}')));
-                            setState(() {
-                              widget.tabController.index = 0;
-                            });
-                          },
                         ),
-                      ),
-                      const Divider(
-                        thickness: 2,
-                        color: Colors.black12,
-                      ),
-                    ],
-                  );
-                });
+                        const Divider(
+                          thickness: 2,
+                          color: Colors.black12,
+                        ),
+                      ],
+                    );
+                  });
+            }
           }
         });
   }
