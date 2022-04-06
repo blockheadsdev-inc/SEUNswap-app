@@ -258,4 +258,16 @@ class SeunSwapApi {
     debugPrint("seunswapAPI fetchOwnedTokens() Owned Tokens: $tokens");
     return tokens;
   }
+
+  Future<double> fetchHbarPrice() async {
+    // TODO: implement external price API we know is reliable.
+    // TODO: This URL was something I found without keys.
+    var _url = "https://api.cryptorank.io/v0/coins/hedera-hashgraph/tickers";
+    // get json from url
+    var _response = await http.get(Uri.parse(_url));
+    var _jsonData = json.decode(_response.body);
+    debugPrint(
+        "seunswapAPI fetchHbarPrice() response :  ${_jsonData['data'][1]["last"]}");
+    return _jsonData['data'][1]['last'];
+  }
 }

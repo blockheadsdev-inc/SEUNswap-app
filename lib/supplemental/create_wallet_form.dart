@@ -695,10 +695,17 @@ class _CreateWalletFormState extends State<CreateWalletForm> {
 
   void _submitButtonLogic() async {
     Map _walletId = await _submitForm();
-    print("_submitButtonLogic() :  ${_walletId['walletId']}");
-    if (_walletId['walletId'] != '' && _walletId['walletId'] != '0') {
+
+    if (_walletId['walletId'] == null ||
+        _walletId['walletId'] == '' ||
+        _walletId['walletId'] == '0' ||
+        _walletId['status'] == '500') {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Wallet Creation Failed')));
+      return;
+    } else {
+      print("_submitButtonLogic() :  ${_walletId['walletId']}");
       await _saveWalletData(walletId: _walletId['walletId']);
-      Wallet _temp = await _getWalletData();
 
       _displayWalletId.text = _walletId['walletId'];
       ScaffoldMessenger.of(context).showSnackBar(
