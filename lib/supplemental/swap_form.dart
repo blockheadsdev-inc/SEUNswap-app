@@ -256,8 +256,7 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
           context: context,
           builder: (BuildContext ctx) {
             return AlertDialog(
-              title: const Text('SEUNSwap Tip'),
-              content: const Text('Please fill in all fields'),
+              title: const Text('Please fill in all fields'),
               actions: [
                 TextButton(
                   onPressed: () {

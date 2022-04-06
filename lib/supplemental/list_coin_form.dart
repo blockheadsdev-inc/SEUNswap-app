@@ -105,14 +105,34 @@ class _ListCoinFormState extends State<ListCoinForm> {
         print('_submitButtonLogic()  :   $_res');
         if (_res.isNotEmpty) {
           if (_res['status'] != 500) {
-            _displaySnackMessage('Your Token Id is: ${_res['walletTokenId']}');
+            _displaySnackMessage('Your Token Id is: ${_res['walletTokenId']}',
+                duration: 7);
           } else {
             _displaySnackMessage(
-                'Something went wrong. status: ${_res['status']}  error: ${_res['error']}');
+                'Something went wrong. status: ${_res['status']}  error: ${_res['error']}',
+                duration: 7);
           }
         } else {
-          _displaySnackMessage('Something went wrong. Please try again later.');
+          _displaySnackMessage('Something went wrong. Please try again later.',
+              duration: 5);
         }
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Please fill all the fields'),
+                actions: <Widget>[
+                  TextButton(
+                    // change the button color to blue
+                    child: const Text('Okay'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
       }
     }
   }
@@ -147,10 +167,10 @@ class _ListCoinFormState extends State<ListCoinForm> {
         });
   }
 
-  void _displaySnackMessage(String _message) {
+  void _displaySnackMessage(String _message, {int duration = 3}) {
     if (_message != '') {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(_message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(_message), duration: Duration(seconds: duration)));
     }
   }
 
