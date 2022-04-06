@@ -103,12 +103,15 @@ class _ListCoinFormState extends State<ListCoinForm> {
         Map _res = await _submitListToken();
 
         print('_submitButtonLogic()  :   $_res');
-
-        if (_res['status'] != 500) {
-          _displaySnackMessage('Your Token Id is: ${_res['walletTokenId']}');
+        if (_res.isNotEmpty) {
+          if (_res['status'] != 500) {
+            _displaySnackMessage('Your Token Id is: ${_res['walletTokenId']}');
+          } else {
+            _displaySnackMessage(
+                'Something went wrong. status: ${_res['status']}  error: ${_res['error']}');
+          }
         } else {
-          _displaySnackMessage(
-              'Something went wrong. status: ${_res['status']}  error: ${_res['error']}');
+          _displaySnackMessage('Something went wrong. Please try again later.');
         }
       }
     }
