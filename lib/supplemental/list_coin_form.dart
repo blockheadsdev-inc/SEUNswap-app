@@ -199,7 +199,6 @@ class _ListCoinFormState extends State<ListCoinForm> {
                     fontSize: 33,
                     height: 1.3,
                     letterSpacing: 0.6,
-                    // fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
@@ -253,21 +252,6 @@ class _ListCoinFormState extends State<ListCoinForm> {
                     const SizedBox(
                       height: 30,
                     ),
-                    // Row(
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text(
-                    //       _priceInTinyBars,
-                    //       style: _textStyle(40),
-                    //     ),
-                    //     // Text(
-                    //     //   'Amount in Tiny Bars',
-                    //     //   textAlign: TextAlign.right,
-                    //     //   style: _textStyle(24),
-                    //     // ),
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -292,7 +276,6 @@ class _ListCoinFormState extends State<ListCoinForm> {
                               "Create Token",
                               style: TextStyle(fontSize: 30),
                             ),
-                            // style: ButtonStyle(),
                           ),
                         )
                       ],
