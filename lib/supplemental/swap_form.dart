@@ -56,9 +56,6 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
         _getTokenInfo();
       }
     });
-
-    // _getTokenBalance();
-    // _initGetTokenId();
     super.initState();
   }
 
@@ -89,15 +86,39 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
         (await _dataStorage.getStringValues("selectedTokenWalletWalletId"));
     Map? _data = await _seunSwapApi.fetchTokenBalance(_twalletId!, _twid);
     Map? _priceData = await _seunSwapApi.fetchTokenPrice(_twalletId, _twid);
-    if (mounted) {
-      setState(() {
-        _tokenId.text = _tid;
-        tokenWalletId = _twid;
-        walletId = _walletId;
-        tokenBalance = _data['balance'];
-        // tokenPrice = tinyBartoHbar(double.parse(_priceData['price'])).toInt();
-        tokenPrice = _priceData['price'] ?? 1;
-      });
+
+    if (_tid.isEmpty) {
+      _displaySnackMessage("Please select a token", 2);
+    } else {
+      if (_priceData == null ||
+          _priceData['status'] == null ||
+          _priceData['status'] == '500' ||
+          _data == null ||
+          _data['status'] == '500' ||
+          _data['status'] == null) {
+        _displaySnackMessage(
+            "Error fetching token info. Server status ${_priceData['status']}",
+            15);
+
+        if (mounted) {
+          setState(() {
+            _tokenId.text = _tid;
+            tokenWalletId = _twid;
+            tokenBalance = 0;
+            tokenPrice = 0;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            _tokenId.text = _tid;
+            tokenWalletId = _twid;
+            walletId = _walletId;
+            tokenBalance = _data['balance'];
+            tokenPrice = _priceData['price'] ?? 1;
+          });
+        }
+      }
     }
   }
 
@@ -106,6 +127,7 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
     if (_amount1.text.isNotEmpty) {
       double _tp = tokenPrice.toDouble();
       // TODO: Get updated _hbarPrice from an API
+
       double _hbarPrice = 0.2080 * 100000000;
       double _amount = double.parse(_amount1.text);
       double _tokenPriceTbar = _tp;
@@ -277,10 +299,10 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
     });
   }
 
-  void _displaySnackMessage(String _message) {
+  void _displaySnackMessage(String _message, int _duration) {
     if (_message != '') {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(_message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(_message), duration: Duration(seconds: _duration)));
     }
   }
 
@@ -359,9 +381,6 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
 
   @override
   Widget build(BuildContext context) {
-    // _getTokenInfo();
-    // _addTokenBalance();
-    // _getTokenBalance();
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 8.0, right: 8.0),
       child: Container(
@@ -414,7 +433,6 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
                   ),
                 ),
               ),
-              // _buildCoinsDropDown(),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, right: 18),
                 child: Row(
@@ -459,7 +477,6 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      // width: 250,
                       child: _conditionalInputs(),
                     ),
 
@@ -478,8 +495,6 @@ class _SwapTokenFormState extends State<SwapTokenForm> {
                             width: 160,
                             height: 160,
                             child: MaterialButton(
-                              // height: 20,
-                              // minWidth: 20,
                               onPressed: () {
                                 _swapValues();
                                 _swapHbarPos();
